@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTalks 2026 | One-Day Technical Event</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --accent: #0ea5e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .event-meta {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+            margin-bottom: 2rem;
+        }
+
+        #categorySearch {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            outline: none;
+            transition: all 0.2s;
+            background: var(--bg-card);
+        }
+
+        #categorySearch:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        .schedule {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 1.5rem;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .time-box {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .speakers {
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .speakers::before {
+            content: "🎙️";
+        }
+
+        .categories {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .category-tag {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .break {
+            background: #f1f5f9;
+            border-style: dashed;
+            grid-template-columns: 120px 1fr;
+            opacity: 0.8;
+        }
+
+        .break .time-box {
+            color: var(--text-muted);
+        }
+
+        .break h3 {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .transition {
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-left: 2px solid var(--border);
+            margin-left: 60px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 640px) {
+            .item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .time-box {
+                margin-bottom: 0.5rem;
+            }
+            .transition {
+                margin-left: 0;
+                border-left: none;
+                border-top: 1px solid var(--border);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TechTalks 2026</h1>
+            <p class="event-meta">Monday, May 25 • Global Tech Hub • 10:00 AM - 5:40 PM</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="categorySearch" placeholder="🔍 Search by category (e.g., AI, Cloud, Frontend)...">
+        </div>
+
+        <div id="schedule" class="schedule">
+            <!-- JavaScript will populate this -->
+        </div>
+    </div>
+
+    <script>
+        const scheduleData = [
+            {
+                type: 'talk',
+                time: '10:00 AM',
+                title: 'Scaling Cloud-Native Apps with Kubernetes',
+                speakers: ['Alex Rivera'],
+                categories: ['Cloud', 'Infrastructure', 'DevOps'],
+                description: 'Explore the best practices for scaling microservices in a multi-cluster environment, focusing on service discovery and load balancing in production-grade Kubernetes.'
+            },
+            { type: 'transition' },
+            {
+                type: 'talk',
+                time: '11:10 AM',
+                title: 'The Future of Generative AI in Production',
+                speakers: ['Sarah Chen', 'Dr. James Wilson'],
+                categories: ['AI', 'ML', 'LLM'],
+                description: 'Moving beyond prototypes: learn how to deploy and monitor Large Language Models in production while maintaining safety, performance, and cost-efficiency.'
+            },
+            {
+                type: 'break',
+                time: '12:10 PM',
+                title: 'Lunch Break',
+                description: 'Networking and lunch at the main hall.'
+            },
+            {
+                type: 'talk',
+                time: '1:10 PM',
+                title: 'Mastering Frontend Performance',
+                speakers: ['Leo Garcia'],
+                categories: ['Frontend', 'Performance'],
+                description: 'A deep dive into Core Web Vitals, hydration strategies, and how to deliver buttery-smooth user experiences in modern web applications.'
+            },
+            { type: 'transition' },
+            {
+                type: 'talk',
+                time: '2:20 PM',
+                title: 'Securing the Software Supply Chain',
+                speakers: ['Elena Sokolov'],
+                categories: ['Security', 'DevSecOps'],
+                description: 'Identifying vulnerabilities in your dependencies and implementing automated security gates in your CI/CD pipelines to prevent supply chain attacks.'
+            },
+            { type: 'transition' },
+            {
+                type: 'talk',
+                time: '3:30 PM',
+                title: 'Real-Time Data Pipelines at Scale',
+                speakers: ['Mark Thompson', 'Lisa Wang'],
+                categories: ['Data', 'Streaming'],
+                description: 'Building resilient data pipelines using Apache Kafka and Flink to process millions of events per second with exactly-once semantics.'
+            },
+            { type: 'transition' },
+            {
+                type: 'talk',
+                time: '4:40 PM',
+                title: 'WebAssembly: Beyond the Browser',
+                speakers: ['Jordan Smith'],
+                categories: ['Wasm', 'Edge', 'Backend'],
+                description: 'How WebAssembly is revolutionizing edge computing and providing a secure, lightweight, and language-agnostic alternative to traditional containers.'
+            }
+        ];
+
+        const scheduleContainer = document.getElementById('schedule');
+        const searchInput = document.getElementById('categorySearch');
+
+        function renderSchedule(filter = '') {
+            scheduleContainer.innerHTML = '';
+            const filteredData = scheduleData.filter(item => {
+                if (item.type !== 'talk') return true;
+                if (!filter) return true;
+                return item.categories.some(cat => 
+                    cat.toLowerCase().includes(filter.toLowerCase())
+                );
+            });
+
+            // If we filtered out all talks, show no results
+            const hasTalks = filteredData.some(item => item.type === 'talk');
+            if (filter && !hasTalks) {
+                scheduleContainer.innerHTML = '<div class="no-results">No talks found matching that category.</div>';
+                return;
+            }
+
+            filteredData.forEach(item => {
+                if (item.type === 'transition') {
+                    const div = document.createElement('div');
+                    div.className = 'transition';
+                    div.innerText = '10 min transition';
+                    scheduleContainer.appendChild(div);
+                    return;
+                }
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `item ${item.type}`;
+                
+                const timeBox = `<div class="time-box">${item.time}</div>`;
+                
+                let content = `
+                    <div class="content">
+                        <h3>${item.title}</h3>
+                        ${item.speakers ? `<div class="speakers">${item.speakers.join(', ')}</div>` : ''}
+                        ${item.categories ? `
+                            <div class="categories">
+                                ${item.categories.map(cat => `<span class="category-tag">${cat}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                        <p class="description">${item.description}</p>
+                    </div>
+                `;
+
+                itemDiv.innerHTML = timeBox + content;
+                scheduleContainer.appendChild(itemDiv);
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            renderSchedule(e.target.value);
+        });
+
+        // Initial render
+        renderSchedule();
+    </script>
+</body>
+</html>
